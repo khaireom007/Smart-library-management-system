@@ -1,0 +1,157 @@
+flowchart TD
+    A([Start]) --> B[/Display menu and read choice/]
+    B --> C{Choice valid?}
+    C -- Add --> D[Add book]
+    C -- Search title --> E[Search by title]
+    C -- Display all --> F[Display all books]
+    C -- Update --> G[Update book]
+    C -- Unique categories --> H[Show unique categories]
+    C -- Count available --> I[Count available books]
+    C -- Search author --> J[Find books by author]
+    C -- Sort titles --> K[Sort titles]
+    C -- Available books --> L[Display available books]
+    C -- Borrow/return --> M[Borrow or return]
+    C -- Data structure demos --> N[Run demonstrations]
+    C -- Exit --> O([End])
+    C -- Invalid --> P[/Display invalid choice/]
+    D --> B
+    E --> B
+    F --> B
+    G --> B
+    H --> B
+    I --> B
+    J --> B
+    K --> B
+    L --> B
+    M --> B
+    N --> B
+    P --> B
+
+    subgraph AddBook[Add a book]
+      A1([Start]) --> A2[/Read book details/]
+      A2 --> A3{Fields valid?}
+      A3 -- No --> A4[/Display validation error/]
+      A3 -- Yes --> A5{Book ID exists?}
+      A5 -- Yes --> A6[/Display duplicate message/]
+      A5 -- No --> A7[Create dictionary and append to list]
+      A7 --> A8[/Display success/]
+      A4 --> A9([End])
+      A6 --> A9
+      A8 --> A9
+    end
+
+    subgraph SearchTitle[Search by title]
+      S1([Start]) --> S2[/Read title/]
+      S2 --> S3[Create empty results list]
+      S3 --> S4{More books?}
+      S4 -- Yes --> S5[Compare title ignoring case]
+      S5 --> S6{Match?}
+      S6 -- Yes --> S7[Append record]
+      S6 -- No --> S4
+      S7 --> S4
+      S4 -- No --> S8{Results empty?}
+      S8 -- Yes --> S9[/Display Book Not Found/]
+      S8 -- No --> S10[/Display matches/]
+      S9 --> S11([End])
+      S10 --> S11
+    end
+
+    subgraph DisplayAll[Display all records]
+      D1([Start]) --> D2{Catalogue empty?}
+      D2 -- Yes --> D3[/Display empty message/]
+      D2 -- No --> D4[Visit each record]
+      D4 --> D5[/Display record details/]
+      D3 --> D6([End])
+      D5 --> D6
+    end
+
+    subgraph UpdateBook[Update book]
+      U1([Start]) --> U2[/Read Book ID/]
+      U2 --> U3{Record found?}
+      U3 -- No --> U4[/Display Book Not Found/]
+      U3 -- Yes --> U5[/Read field and new value/]
+      U5 --> U6{New value valid?}
+      U6 -- No --> U7[/Display validation error/]
+      U6 -- Yes --> U8[Update dictionary field]
+      U8 --> U9[/Display confirmation/]
+      U4 --> U10([End])
+      U7 --> U10
+      U9 --> U10
+    end
+
+    subgraph UniqueCategories[Unique categories]
+      C1([Start]) --> C2[Collect categories into list]
+      C2 --> C3[Convert list to set]
+      C3 --> C4[Sort unique values]
+      C4 --> C5[/Display categories/]
+      C5 --> C6([End])
+    end
+
+    subgraph CountAvailable[Count available]
+      N1([Start]) --> N2[Set count to zero]
+      N2 --> N3{More books?}
+      N3 -- Yes --> N4{Book available?}
+      N4 -- Yes --> N5[Increase count]
+      N4 -- No --> N3
+      N5 --> N3
+      N3 -- No --> N6[/Display count/]
+      N6 --> N7([End])
+    end
+
+    subgraph SearchAuthor[Find by author]
+      R1([Start]) --> R2[/Read author/]
+      R2 --> R3[Create empty matches list]
+      R3 --> R4{More books?}
+      R4 -- Yes --> R5{Author matches?}
+      R5 -- Yes --> R6[Append record]
+      R5 -- No --> R4
+      R6 --> R4
+      R4 -- No --> R7{Matches empty?}
+      R7 -- Yes --> R8[/Display no-match message/]
+      R7 -- No --> R9[/Display matching books/]
+      R8 --> R10([End])
+      R9 --> R10
+    end
+
+    subgraph SortTitles[Sort titles]
+      T1([Start]) --> T2[Copy titles into list]
+      T2 --> T3[Sort alphabetically]
+      T3 --> T4[/Display sorted titles/]
+      T4 --> T5([End])
+    end
+
+    subgraph AvailableBooks[Display available books]
+      V1([Start]) --> V2[Create empty available list]
+      V2 --> V3{More books?}
+      V3 -- Yes --> V4{Available?}
+      V4 -- Yes --> V5[Append book]
+      V4 -- No --> V3
+      V5 --> V3
+      V3 -- No --> V6{List empty?}
+      V6 -- Yes --> V7[/Display no available books/]
+      V6 -- No --> V8[/Display available books/]
+      V7 --> V9([End])
+      V8 --> V9
+    end
+
+    subgraph BorrowReturn[Borrow or return]
+      BR1([Start]) --> BR2[/Read Book ID and action/]
+      BR2 --> BR3{Record found?}
+      BR3 -- No --> BR4[/Display Book Not Found/]
+      BR3 -- Yes --> BR5{Action is borrow?}
+      BR5 -- Yes --> BR6{Already unavailable?}
+      BR6 -- Yes --> BR7[/Display already borrowed/]
+      BR6 -- No --> BR8[Set available to false]
+      BR5 -- No --> BR9{Action is return?}
+      BR9 -- No --> BR10[/Display invalid action/]
+      BR9 -- Yes --> BR11{Already available?}
+      BR11 -- Yes --> BR12[/Display already available/]
+      BR11 -- No --> BR13[Set available to true]
+      BR8 --> BR14[/Display result/]
+      BR13 --> BR14
+      BR4 --> BR15([End])
+      BR7 --> BR15
+      BR10 --> BR15
+      BR12 --> BR15
+      BR14 --> BR15
+    end
